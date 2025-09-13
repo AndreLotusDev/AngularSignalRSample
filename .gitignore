@@ -417,6 +417,14 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
+#remove appsettings.json in any folder or subfolder
+appsettings.json
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Local.json
+appsettings.Staging.json
+
+
 # Angular specific
 /dist/
 /out-tsc/
