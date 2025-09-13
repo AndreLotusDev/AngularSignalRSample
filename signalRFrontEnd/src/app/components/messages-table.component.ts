@@ -4,6 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { RealtimeService } from '../core/realtime.service';
 import { Subscription } from 'rxjs';
+import { trigger, state, style, transition, animate } from '@angular/animations'; 
 
 interface MessageRow {
   message: string;
@@ -14,7 +15,7 @@ interface MessageRow {
 @Component({
   selector: 'app-messages-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatCardModule],
+  imports: [CommonModule, MatTableModule, MatCardModule], // Ensure BrowserAnimationsModule is imported here or in app.config.ts if needed
   template: `
     <div class="min-h-screen bg-gray-50 flex items-start justify-center p-6">
       <mat-card class="w-full max-w-4xl">
@@ -39,12 +40,23 @@ interface MessageRow {
               <td mat-cell *matCellDef="let r">{{ r.by || '-' }}</td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayed"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayed"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayed" @rowAnimation></tr>
+            <!-- Add @rowAnimation here -->
           </table>
         </mat-card-content>
       </mat-card>
     </div>
   `,
+  animations: [
+    // Add this animations array to the component decorator
+    trigger('rowAnimation', [
+      transition(':enter', [
+        // Triggers when a row enters (is added)
+        style({ opacity: 0, transform: 'translateY(-10px)' }), // Start state: invisible and slightly above
+        animate('300ms ease-in', style({ opacity: 1, transform: 'translateY(0)' })), // End state: visible and in place
+      ]),
+    ]),
+  ],
 })
 export class MessagesTableComponent implements OnInit, OnDestroy {
   private realtime = inject(RealtimeService);
@@ -58,7 +70,6 @@ export class MessagesTableComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log('MessagesTableComponent initialized, subscribing to notifications...');
-
     this.subscription = this.realtime.notifications$.subscribe((p) => {
       console.log('Notification received in component:', p);
 
