@@ -1,4 +1,4 @@
-# AngularSignalRSample# AngularSignalRSample
+# AngularSignalRSample
 
 This project demonstrates the differences between **WebSocket** and **Long Polling** transport mechanisms in real-time applications, focusing on the challenges of JWT renewal—especially in long polling scenarios.
 
