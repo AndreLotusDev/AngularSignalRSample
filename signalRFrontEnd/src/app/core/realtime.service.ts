@@ -72,6 +72,13 @@ export class RealtimeService {
     await this.hub?.stop();
   }
 
+  async reconnect() {
+    await this.hub?.stop();
+    //wait 2 seconds
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await this.hub?.start();
+  }
+
   async start() {
     await this.hub?.start();
   }

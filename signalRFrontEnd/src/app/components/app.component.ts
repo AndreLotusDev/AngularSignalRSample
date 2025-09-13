@@ -44,6 +44,7 @@ import { HttpClient } from '@angular/common/http';
           <button mat-stroked-button (click)="emitViaApi()">Emitir (API)</button>
           <button mat-stroked-button (click)="stop()">Stop</button>
           <button mat-stroked-button (click)="start()">Start</button>
+          <button mat-stroked-button (click)="reconnect()">Reconnect</button>
         </div>
 
         <app-messages-table></app-messages-table>
@@ -135,6 +136,15 @@ export class AppComponent implements OnInit {
       this.snackBar.open('Conexão iniciada!', 'Fechar', { duration: 3000 });
     } catch (err) {
       this.snackBar.open('Falha ao iniciar conexão!', 'Fechar', { duration: 3000 });
+    }
+  }
+
+  async reconnect() {
+    try {
+      await this.rt.reconnect();
+      this.snackBar.open('Reconectado!', 'Fechar', { duration: 3000 });
+    } catch (err) {
+      this.snackBar.open('Falha ao reconectar!', 'Fechar', { duration: 3000 });
     }
   }
 }
