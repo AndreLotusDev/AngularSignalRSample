@@ -25,9 +25,9 @@ namespace SignalR.Extensions
                         ValidIssuer = issuer,
                         ValidAudience = audience,
                         IssuerSigningKey = signingKey,
-                        ClockSkew = TimeSpan.Zero // Remove clock skew for testing
+                        ClockSkew = TimeSpan.FromSeconds(5) 
                     };
-                    options.SaveToken = false; // Disable token caching
+                    options.SaveToken = false; 
                     options.Events = new JwtBearerEvents
                     {
                         OnMessageReceived = context =>

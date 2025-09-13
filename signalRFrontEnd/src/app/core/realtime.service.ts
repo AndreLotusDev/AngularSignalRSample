@@ -19,14 +19,18 @@ export class RealtimeService {
     this.hub = new signalR.HubConnectionBuilder()
       .withUrl(environment.apiUrl + '/hubs/notifications', {
         accessTokenFactory: async () => {
-          if(this.auth.token) {
+          //fake 3 seconds wait
+          // await new Promise(resolve => setTimeout(resolve, 3000));  
+
+          if(this.auth.token && this.auth.expiresAt > Date.now()) {
             return this.auth.token;
           }
 
           await this.auth.reLogin();
           return this.auth.token || '';
         },
-        transport: signalR.HttpTransportType.WebSockets | signalR.HttpTransportType.ServerSentEvents,
+        transport: signalR.HttpTransportType.WebSockets, //tocket is read just first handshake
+        // transport: signalR.HttpTransportType.LongPolling,
         skipNegotiation: false,
         timeout: 30000,
         headers: {

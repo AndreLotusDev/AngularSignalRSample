@@ -13,7 +13,7 @@ export interface TokenResponse {
 export class AuthService extends BaseService {
   private accessToken: string | null = null;
   private refreshToken: string | null = null;
-  private expiresAt: number = 0;
+  public expiresAt: number = 0;
 
   private userName = '';
   private userPassword = '';
