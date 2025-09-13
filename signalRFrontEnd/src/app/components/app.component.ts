@@ -42,7 +42,7 @@ import { HttpClient } from '@angular/common/http';
           <button mat-stroked-button [disabled]="!message" (click)="fetchRandomMessage()">
             New Message
           </button>
-          <button mat-raised-button color="accent" (click)="emit()">Dispatch (Hub)</button>
+          <button mat-raised-button color="accent" [disabled]="!(message !== '')" (click)="emit()">Dispatch (Hub)</button>
           <button mat-stroked-button (click)="emitViaApi()">Dispatch (API)</button>
           <button mat-stroked-button (click)="stop()">Stop</button>
           <button mat-stroked-button (click)="start()">Start</button>
