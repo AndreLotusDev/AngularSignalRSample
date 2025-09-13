@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.SignalR;
 using SignalR.Dtos;
 using System.Collections.Concurrent;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace SignalR.Hubs
 {
@@ -10,6 +9,7 @@ namespace SignalR.Hubs
     public class NotificationsHub : Hub
     {
         private static readonly ConcurrentQueue<MessageDto> _recentMessages = new();
+        public static ConcurrentQueue<MessageDto> GetRecentMessages => _recentMessages;
         public override Task OnConnectedAsync()
         {
             //when someone enter send the last 10 seconds messages
