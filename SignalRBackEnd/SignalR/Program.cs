@@ -7,11 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCorsPolicy(builder.Configuration);
 builder.Services.AddJwtAuth(builder.Configuration);
 
-builder.Services.AddSignalR(options =>
-{
-    options.MaximumReceiveMessageSize = 1024 * 1024;
-    options.StreamBufferCapacity = 10;
-});
+builder.Services.AddSignalR();
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();

@@ -1,4 +1,4 @@
-import { Injectable, NgZone, inject } from '@angular/core';
+import { Injectable, NgZone, inject, signal } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { Subject } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -29,7 +29,7 @@ export class RealtimeService {
           await this.auth.reLogin();
           return this.auth.token || '';
         },
-        transport: signalR.HttpTransportType.WebSockets, //tocket is read just first handshake
+        transport: signalR.HttpTransportType.WebSockets | signalR.HttpTransportType.ServerSentEvents, //tocket is read just first handshake
         // transport: signalR.HttpTransportType.LongPolling,
         skipNegotiation: false,
         timeout: 30000,
@@ -45,6 +45,13 @@ export class RealtimeService {
     this.hub.on('notification', (payload) => {
       console.log('Notification received from SignalR:', payload);
       this.zone.run(() => this.notificationsSubject.next(payload));
+    });
+
+    this.hub.on('recentMessages', (messages: any[]) => {
+      console.log('Recent messages received from SignalR:', messages);
+      messages.forEach(payload => {
+        this.zone.run(() => this.notificationsSubject.next(payload));
+      });
     });
 
     this.hub.onreconnecting(() => {

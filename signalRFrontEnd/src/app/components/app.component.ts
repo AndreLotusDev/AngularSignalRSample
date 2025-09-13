@@ -39,9 +39,11 @@ import { HttpClient } from '@angular/common/http';
             [(ngModel)]="message"
             placeholder="mensagem para disparar"
           />
-          <button mat-stroked-button (click)="fetchRandomMessage()">Nova Mensagem</button>
-          <button mat-raised-button color="accent" (click)="emit()">Emitir (Hub)</button>
-          <button mat-stroked-button (click)="emitViaApi()">Emitir (API)</button>
+          <button mat-stroked-button [disabled]="!message" (click)="fetchRandomMessage()">
+            New Message
+          </button>
+          <button mat-raised-button color="accent" (click)="emit()">Dispatch (Hub)</button>
+          <button mat-stroked-button (click)="emitViaApi()">Dispatch (API)</button>
           <button mat-stroked-button (click)="stop()">Stop</button>
           <button mat-stroked-button (click)="start()">Start</button>
           <button mat-stroked-button (click)="reconnect()">Reconnect</button>
